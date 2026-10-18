@@ -36,7 +36,7 @@ pass1,224,32,fp16,ok,80,400,12,50,6
 
 - **#1: Training batch step time** — stored as `step_time_msec`.
 - **#2: Training throughput** — stored as `images_per_sec`.
-- **#3: Achieved compute throughput** — stored as `fp16_tflops`.
+- **#3: Modeled FP16 training throughput, 3x forward FLOPs, TFLOP/s** — stored as `fp16_tflops`.
 - **#4: Peak GPU memory** — stored as `peak_gpu_memory_gb`.
 - **#5: Modeled weight and feature-map traffic, GB/s** — stored as `modeled_weight_feature_traffic_gb_s`.
 

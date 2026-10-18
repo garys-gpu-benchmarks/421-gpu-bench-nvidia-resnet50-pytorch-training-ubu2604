@@ -32,14 +32,14 @@ This repository is one of the 32 workloads in the NVIDIA Ubuntu 26.04 bundle, [`
 apt-get update && apt-get install -y git
 git clone --recurse-submodules https://github.com/garys-gpu-benchmarks/bundle-nvidia-ubuntu-2604 /opt/benchmarks \
   && cd /opt/benchmarks \
-  && ./run.sh list \
+  && ./run_benchmark_suite.sh --list \
   && cd /opt/benchmarks/421-gpu-bench-nvidia-resnet50-pytorch-training-ubu2604 \
   && bash run_benchmark.sh --profile smoke --validate \
   && cd /opt/benchmarks \
   && echo "Done: 32 workloads in /opt/benchmarks; 421-gpu-bench-nvidia-resnet50-pytorch-training-ubu2604 smoke run passed. Next: ./run_benchmark_suite.sh --help"
 ```
 
-Every line in `./run.sh list` should show `ready`. The commands are joined with `&&`, so if the clone or the smoke run fails, the chain stops there, and the closing message appears only when everything succeeded. The chain ends in `/opt/benchmarks`, where the suite runner is. For more extensive testing:
+Every line in `./run_benchmark_suite.sh --list` should show `ready`; it exits with an error if any workload is not fetched. The commands are joined with `&&`, so if the clone, the list or the smoke run fails, the chain stops there, and the closing message appears only when everything succeeded. The chain ends in `/opt/benchmarks`, where the suite runner is. For more extensive testing:
 
 ```bash
 ./run_benchmark_suite.sh -p smoke                 # smoke test of all 32 workloads
@@ -73,8 +73,8 @@ Three operator scripts from [`garys-gpu-benchmarks/gpu-bench-suite`](https://git
 - **`get_remote_info.sh`** (on your laptop; Git Bash on Windows) — over one SSH connection, copies the runtime ledger and every workload's `results/raw`, `results/parsed` and suite logs into `RUNTIME_LEDGERS/` and `DIRECTORIES/`.
   ```bash
   git clone https://github.com/garys-gpu-benchmarks/gpu-bench-suite && cd gpu-bench-suite
-  ./scripts/get_remote_info.sh 203.0.113.10                     # root@host, port 22
-  ./scripts/get_remote_info.sh -i ~/.ssh/id_ed25519 -o ~/results ubuntu@203.0.113.10 2222
+  ./scripts/get_remote_info.sh --host 203.0.113.10              # root@host, port 22
+  ./scripts/get_remote_info.sh --host ubuntu@203.0.113.10 --port 2222 -i ~/.ssh/id_ed25519 -o ~/results
   ```
 - **`show_metrics.sh`** (laptop or GPU host) — prints one workload's runs from the runtime ledger in fixed-width metric columns with per-profile means. On the GPU host it is `/opt/benchmarks/show_metrics.sh`.
   ```bash
@@ -92,7 +92,7 @@ Runs scripts/train_resnet50.py (synthetic images, FP16 AMP) twice via collect_re
 - Validates two timed training passes plus a summary average on synthetic FP16 ResNet-50 steps
 - #1: Training batch step time (step_time_msec); is present and physically sensible.
 - #2: Training throughput (images_per_sec); is present and physically sensible.
-- #3: Achieved compute throughput (fp16_tflops); is present and physically sensible.
+- #3: Modeled FP16 training throughput, 3x forward FLOPs, TFLOP/s (fp16_tflops); is present and physically sensible.
 - #4: Peak GPU memory (peak_gpu_memory_gb); is present and physically sensible.
 - #5: Modeled weight and feature-map traffic, GB/s (modeled_weight_feature_traffic_gb_s) is present and physically sensible.
 
@@ -100,7 +100,7 @@ Runs scripts/train_resnet50.py (synthetic images, FP16 AMP) twice via collect_re
 
 - **#1: Training batch step time** — stored as `step_time_msec`.
 - **#2: Training throughput** — stored as `images_per_sec`.
-- **#3: Achieved compute throughput** — stored as `fp16_tflops`.
+- **#3: Modeled FP16 training throughput, 3x forward FLOPs, TFLOP/s** — stored as `fp16_tflops`.
 - **#4: Peak GPU memory** — stored as `peak_gpu_memory_gb`.
 - **#5: Modeled weight and feature-map traffic, GB/s** — stored as `modeled_weight_feature_traffic_gb_s`.
 
@@ -132,7 +132,7 @@ Ubuntu 26.04 / NVIDIA / Bash, SQLite, Python, PyYAML, CUDA Runtime, PyTorch-CUDA
 | OS | Ubuntu 26.04 |
 | Kernel | kernel 7.0.0 |
 | Python | Python 3.14.4 |
-| ROCm | CUDA 13.3 |
+| ROCm | CUDA 13.3 (nvcc 13.3.73). Driver 580.159.04 reports CUDA 13.0 |
 | rocBLAS | cuBLAS (bundled with CUDA 13.3) |
 
 Runs scripts/train_resnet50.py (synthetic images, FP16 AMP) twice via collect_resnet50_train.py. dataset_name: synthetic. precision: fp16.
