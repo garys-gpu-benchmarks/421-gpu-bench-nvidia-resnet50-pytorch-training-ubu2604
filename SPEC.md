@@ -17,7 +17,7 @@ Runs scripts/train_resnet50.py (synthetic images, FP16 AMP) twice via collect_re
 | learning_rate | `--learning-rate` | smoke=0.1, baseline=0.1, extended=0.1 | 0.1 | From Parameter list; see Execution Description With Parameters. |
 | gradient_accumulation | `--gradient-accumulation` | smoke=1, baseline=1, extended=1 | 1 | From Parameter list; see Execution Description With Parameters. |
 | warmup_iters | `--warmup-iters` | smoke=1, baseline=2, extended=5 | 2 | From Parameter list; see Execution Description With Parameters. |
-| num_iterations | `--num-iterations` | smoke=3, baseline=3100, extended=8800 | 3100 | From Parameter list; see Execution Description With Parameters. |
+| num_iterations | `--num-iterations` | smoke=3, baseline=2170, extended=6750 | 2170 | From Parameter list; see Execution Description With Parameters. |
 
 ## Invocation
 
