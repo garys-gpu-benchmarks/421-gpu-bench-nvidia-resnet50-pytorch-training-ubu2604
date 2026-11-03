@@ -45,16 +45,15 @@ Validation and logging:
   --save-options-file <path>    Write resolved CLI options to PATH
 
 Workload options:
-  --dataset-name <value>            Override dataset_name
   --precision <value>            Override precision
   --image-size <value>            Override image_size
   --batch-size <value>            Override batch_size
-  --num-workers <value>            Override num_workers
-  --optimizer <value>            Override optimizer
   --learning-rate <value>            Override learning_rate
-  --gradient-accumulation <value>            Override gradient_accumulation
   --warmup-iters <value>            Override warmup_iters
   --num-iterations <value>            Override num_iterations
+  --num-workers <value>            Override num_workers
+  --optimizer <value>            Override optimizer
+  --gradient-accumulation <value>            Override gradient_accumulation
 
 Information:
   --specification               Print this workload's specification and exit
@@ -88,16 +87,15 @@ QUIET=0
 LOG_LEVEL_VALUE="INFO"
 OUTPUT_FORMAT=""
 SAVE_OPTIONS_FILE=""
-DATASET_NAME=""
 PRECISION=""
 IMAGE_SIZE=""
 BATCH_SIZE=""
-NUM_WORKERS=""
-OPTIMIZER=""
 LEARNING_RATE=""
-GRADIENT_ACCUMULATION=""
 WARMUP_ITERS=""
 NUM_ITERATIONS=""
+NUM_WORKERS=""
+OPTIMIZER=""
+GRADIENT_ACCUMULATION=""
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
@@ -118,16 +116,15 @@ while [[ $# -gt 0 ]]; do
     --log-level) LOG_LEVEL_VALUE="${2:-}"; shift 2 ;;
     --output-format) OUTPUT_FORMAT="${2:-}"; shift 2 ;;
     --save-options-file) SAVE_OPTIONS_FILE="${2:-}"; shift 2 ;;
-    --dataset-name) DATASET_NAME="${2:-}"; shift 2 ;;
     --precision) PRECISION="${2:-}"; shift 2 ;;
     --image-size) IMAGE_SIZE="${2:-}"; shift 2 ;;
     --batch-size) BATCH_SIZE="${2:-}"; shift 2 ;;
-    --num-workers) NUM_WORKERS="${2:-}"; shift 2 ;;
-    --optimizer) OPTIMIZER="${2:-}"; shift 2 ;;
     --learning-rate) LEARNING_RATE="${2:-}"; shift 2 ;;
-    --gradient-accumulation) GRADIENT_ACCUMULATION="${2:-}"; shift 2 ;;
     --warmup-iters) WARMUP_ITERS="${2:-}"; shift 2 ;;
     --num-iterations) NUM_ITERATIONS="${2:-}"; shift 2 ;;
+    --num-workers) NUM_WORKERS="${2:-}"; shift 2 ;;
+    --optimizer) OPTIMIZER="${2:-}"; shift 2 ;;
+    --gradient-accumulation) GRADIENT_ACCUMULATION="${2:-}"; shift 2 ;;
     --help|--specification|--matrix-definition) shift ;;
     *) die "Unknown option: $1" ;;
   esac
@@ -166,31 +163,29 @@ print("" if raw_value is None else raw_value)
 PY
 }
 
-DATASET_NAME="${DATASET_NAME:-$(yaml_get dataset_name)}"
 PRECISION="${PRECISION:-$(yaml_get precision)}"
 IMAGE_SIZE="${IMAGE_SIZE:-$(yaml_get image_size)}"
 BATCH_SIZE="${BATCH_SIZE:-$(yaml_get batch_size)}"
-NUM_WORKERS="${NUM_WORKERS:-$(yaml_get num_workers)}"
-OPTIMIZER="${OPTIMIZER:-$(yaml_get optimizer)}"
 LEARNING_RATE="${LEARNING_RATE:-$(yaml_get learning_rate)}"
-GRADIENT_ACCUMULATION="${GRADIENT_ACCUMULATION:-$(yaml_get gradient_accumulation)}"
 WARMUP_ITERS="${WARMUP_ITERS:-$(yaml_get warmup_iters)}"
 NUM_ITERATIONS="${NUM_ITERATIONS:-$(yaml_get num_iterations)}"
+NUM_WORKERS="${NUM_WORKERS:-$(yaml_get num_workers)}"
+OPTIMIZER="${OPTIMIZER:-$(yaml_get optimizer)}"
+GRADIENT_ACCUMULATION="${GRADIENT_ACCUMULATION:-$(yaml_get gradient_accumulation)}"
 OUTPUT_FORMAT="${OUTPUT_FORMAT:-$(yaml_get output_format)}"
 OUTPUT_FORMAT="${OUTPUT_FORMAT:-csv}"
 
 BENCHMARK_RUN_COMMAND="bash run_benchmark.sh --${PROFILE}"
 [[ "${VALIDATE}" -eq 1 ]] && BENCHMARK_RUN_COMMAND+=" --validate"
-[[ -n "${DATASET_NAME}" ]] && BENCHMARK_RUN_COMMAND+=" --dataset-name $(printf %q "${DATASET_NAME}")"
 [[ -n "${PRECISION}" ]] && BENCHMARK_RUN_COMMAND+=" --precision $(printf %q "${PRECISION}")"
 [[ -n "${IMAGE_SIZE}" ]] && BENCHMARK_RUN_COMMAND+=" --image-size $(printf %q "${IMAGE_SIZE}")"
 [[ -n "${BATCH_SIZE}" ]] && BENCHMARK_RUN_COMMAND+=" --batch-size $(printf %q "${BATCH_SIZE}")"
-[[ -n "${NUM_WORKERS}" ]] && BENCHMARK_RUN_COMMAND+=" --num-workers $(printf %q "${NUM_WORKERS}")"
-[[ -n "${OPTIMIZER}" ]] && BENCHMARK_RUN_COMMAND+=" --optimizer $(printf %q "${OPTIMIZER}")"
 [[ -n "${LEARNING_RATE}" ]] && BENCHMARK_RUN_COMMAND+=" --learning-rate $(printf %q "${LEARNING_RATE}")"
-[[ -n "${GRADIENT_ACCUMULATION}" ]] && BENCHMARK_RUN_COMMAND+=" --gradient-accumulation $(printf %q "${GRADIENT_ACCUMULATION}")"
 [[ -n "${WARMUP_ITERS}" ]] && BENCHMARK_RUN_COMMAND+=" --warmup-iters $(printf %q "${WARMUP_ITERS}")"
 [[ -n "${NUM_ITERATIONS}" ]] && BENCHMARK_RUN_COMMAND+=" --num-iterations $(printf %q "${NUM_ITERATIONS}")"
+[[ -n "${NUM_WORKERS}" ]] && BENCHMARK_RUN_COMMAND+=" --num-workers $(printf %q "${NUM_WORKERS}")"
+[[ -n "${OPTIMIZER}" ]] && BENCHMARK_RUN_COMMAND+=" --optimizer $(printf %q "${OPTIMIZER}")"
+[[ -n "${GRADIENT_ACCUMULATION}" ]] && BENCHMARK_RUN_COMMAND+=" --gradient-accumulation $(printf %q "${GRADIENT_ACCUMULATION}")"
 set_benchmark_run_command "${BENCHMARK_RUN_COMMAND}"
 
 HOSTNAME_VALUE="$(hostname -s 2>/dev/null || hostname)"
@@ -233,16 +228,15 @@ run_collection() {
     collect_args+=(--device-id "${DEVICE_ID:-0}")
   fi
   grep -q -- '--output-format' <<<"${help}" && collect_args+=(--output-format "${OUTPUT_FORMAT}")
-  grep -q -- '--dataset-name' <<<"${help}" && collect_args+=(--dataset-name "${DATASET_NAME}")
   grep -q -- '--precision' <<<"${help}" && collect_args+=(--precision "${PRECISION}")
   grep -q -- '--image-size' <<<"${help}" && collect_args+=(--image-size "${IMAGE_SIZE}")
   grep -q -- '--batch-size' <<<"${help}" && collect_args+=(--batch-size "${BATCH_SIZE}")
-  grep -q -- '--num-workers' <<<"${help}" && collect_args+=(--num-workers "${NUM_WORKERS}")
-  grep -q -- '--optimizer' <<<"${help}" && collect_args+=(--optimizer "${OPTIMIZER}")
   grep -q -- '--learning-rate' <<<"${help}" && collect_args+=(--learning-rate "${LEARNING_RATE}")
-  grep -q -- '--gradient-accumulation' <<<"${help}" && collect_args+=(--gradient-accumulation "${GRADIENT_ACCUMULATION}")
   grep -q -- '--warmup-iters' <<<"${help}" && collect_args+=(--warmup-iters "${WARMUP_ITERS}")
   grep -q -- '--num-iterations' <<<"${help}" && collect_args+=(--num-iterations "${NUM_ITERATIONS}")
+  grep -q -- '--num-workers' <<<"${help}" && collect_args+=(--num-workers "${NUM_WORKERS}")
+  grep -q -- '--optimizer' <<<"${help}" && collect_args+=(--optimizer "${OPTIMIZER}")
+  grep -q -- '--gradient-accumulation' <<<"${help}" && collect_args+=(--gradient-accumulation "${GRADIENT_ACCUMULATION}")
 
   printf -v collect_cmd '%q ' "${PYTHON_BIN}" scripts/collect_workload.py "${collect_args[@]}"
   echo "[RUN] ${collect_cmd}"

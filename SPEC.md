@@ -2,22 +2,21 @@
 
 ## Execution Description
 
-Runs scripts/train_resnet50.py (synthetic images, FP16 AMP) twice via collect_resnet50_train.py. dataset_name: synthetic. precision: fp16. image_size, batch_size, warmup_iters, and num_iterations come from yaml. Sweep dimensions: dataset_name, precision, image_size, batch_size, num_workers, optimizer, learning_rate, gradient_accumulation.
+Runs scripts/train_resnet50.py (synthetic images, FP16 AMP) twice via collect_resnet50_train.py. precision: fp16. image_size, batch_size, warmup_iters, and num_iterations come from yaml. optimizer/learning_rate/gradient_accumulation/num_workers are recorded; the trainer uses a local synthetic loader, not ImageNet Sweep dimensions: precision, image_size, batch_size, learning_rate, warmup_iters, num_iterations, num_workers, optimizer.
 
 ## Parameters
 
 | Parameter | CLI Flag | Tested Values | Default | Description |
 | --- | --- | --- | --- | --- |
-| dataset_name | `--dataset-name` | smoke=synthetic, baseline=synthetic, extended=synthetic | synthetic | From Parameter list; see Execution Description With Parameters. |
 | precision | `--precision` | smoke=fp16, baseline=fp16, extended=fp16 | fp16 | From Parameter list; see Execution Description With Parameters. |
 | image_size | `--image-size` | smoke=64, baseline=224, extended=224 | 224 | From Parameter list; see Execution Description With Parameters. |
 | batch_size | `--batch-size` | smoke=2, baseline=8, extended=16 | 8 | From Parameter list; see Execution Description With Parameters. |
-| num_workers | `--num-workers` | smoke=0, baseline=0, extended=0 | 0 | From Parameter list; see Execution Description With Parameters. |
-| optimizer | `--optimizer` | smoke=sgd, baseline=sgd, extended=sgd | sgd | From Parameter list; see Execution Description With Parameters. |
 | learning_rate | `--learning-rate` | smoke=0.1, baseline=0.1, extended=0.1 | 0.1 | From Parameter list; see Execution Description With Parameters. |
-| gradient_accumulation | `--gradient-accumulation` | smoke=1, baseline=1, extended=1 | 1 | From Parameter list; see Execution Description With Parameters. |
 | warmup_iters | `--warmup-iters` | smoke=1, baseline=2, extended=5 | 2 | From Parameter list; see Execution Description With Parameters. |
 | num_iterations | `--num-iterations` | smoke=3, baseline=2170, extended=6750 | 2170 | From Parameter list; see Execution Description With Parameters. |
+| num_workers | `--num-workers` | smoke=0, baseline=0, extended=0 | 0 | From Parameter list; see Execution Description With Parameters. |
+| optimizer | `--optimizer` | smoke=sgd, baseline=sgd, extended=sgd | sgd | From Parameter list; see Execution Description With Parameters. |
+| gradient_accumulation | `--gradient-accumulation` | smoke=1, baseline=1, extended=1 | 1 | From Parameter list; see Execution Description With Parameters. |
 
 ## Invocation
 
@@ -42,7 +41,7 @@ pass1,224,32,fp16,ok,80,400,12,50,6
 
 ## Framework
 
-Runs scripts/train_resnet50.py (synthetic images, FP16 AMP) twice via collect_resnet50_train.py. dataset_name: synthetic. precision: fp16.
+Runs scripts/train_resnet50.py (synthetic images, FP16 AMP) twice via collect_resnet50_train.py. precision: fp16. image_size, batch_size, warmup_iters, and num_iterations come from yaml.
 
 ## Installation and Execution Summary
 
@@ -102,10 +101,10 @@ bash run_benchmark.sh --profile extended --validate
 2. `run.error_message` is NULL.
 3. `started_at` and `finished_at` are valid ISO-8601 UTC strings.
 4. All required aggregate metrics in `runs` are non-NULL and finite.
-5. All required aggregate metrics are physically sensible (positive values). Runs scripts/train_resnet50.py (synthetic images, FP16 AMP) twice via collect_resnet50_train.py. dataset_name: synthetic. precision: fp16.
+5. All required aggregate metrics are physically sensible (positive values). Runs scripts/train_resnet50.py (synthetic images, FP16 AMP) twice via collect_resnet50_train.py. precision: fp16. image_size, batch_size, warmup_iters, and num_iterations come from yaml.
 6. At least 2 sample rows exist for the latest `run_id` (sweep coverage).
 7. No sample has `status = 'error'`.
-8. Runs scripts/train_resnet50.py (synthetic images, FP16 AMP) twice via collect_resnet50_train.py. dataset_name: synthetic. precision: fp16.
+8. Runs scripts/train_resnet50.py (synthetic images, FP16 AMP) twice via collect_resnet50_train.py. precision: fp16. image_size, batch_size, warmup_iters, and num_iterations come from yaml.
 
 ### Baseline / Threshold configuration (`config/benchmark_config.yaml`)
 

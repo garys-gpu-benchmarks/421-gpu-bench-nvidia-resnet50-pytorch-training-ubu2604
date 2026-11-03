@@ -85,7 +85,7 @@ Three operator scripts from [`garys-gpu-benchmarks/gpu-bench-suite`](https://git
 
 ## 1. Overview
 
-Runs scripts/train_resnet50.py (synthetic images, FP16 AMP) twice via collect_resnet50_train.py. dataset_name: synthetic. precision: fp16. image_size, batch_size, warmup_iters, and num_iterations come from yaml. Sweep dimensions: dataset_name, precision, image_size, batch_size, num_workers, optimizer, learning_rate, gradient_accumulation.
+Runs scripts/train_resnet50.py (synthetic images, FP16 AMP) twice via collect_resnet50_train.py. precision: fp16. image_size, batch_size, warmup_iters, and num_iterations come from yaml. optimizer/learning_rate/gradient_accumulation/num_workers are recorded; the trainer uses a local synthetic loader, not ImageNet Sweep dimensions: precision, image_size, batch_size, learning_rate, warmup_iters, num_iterations, num_workers, optimizer.
 
 ## 2. What It Validates
 
@@ -119,7 +119,7 @@ The tables below describe the machine used to generate the reference results. Th
 
 ### System
 
-Runs scripts/train_resnet50.py (synthetic images, FP16 AMP) twice via collect_resnet50_train.py. dataset_name: synthetic. precision: fp16.
+Runs scripts/train_resnet50.py (synthetic images, FP16 AMP) twice via collect_resnet50_train.py. precision: fp16. image_size, batch_size, warmup_iters, and num_iterations come from yaml.
 
 ### GPU
 
@@ -135,7 +135,7 @@ Ubuntu 26.04 / NVIDIA / Bash, SQLite, Python, PyYAML, CUDA Runtime, PyTorch-CUDA
 | ROCm | CUDA 13.3 (nvcc 13.3.73). Driver 580.159.04 reports CUDA 13.0 |
 | rocBLAS | cuBLAS (bundled with CUDA 13.3) |
 
-Runs scripts/train_resnet50.py (synthetic images, FP16 AMP) twice via collect_resnet50_train.py. dataset_name: synthetic. precision: fp16.
+Runs scripts/train_resnet50.py (synthetic images, FP16 AMP) twice via collect_resnet50_train.py. precision: fp16. image_size, batch_size, warmup_iters, and num_iterations come from yaml.
 
 ## 6. Installation
 
