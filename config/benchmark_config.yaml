@@ -26,6 +26,3 @@ sweep:
     smoke: 3
     baseline: 2170
     extended: 6750
-  num_workers: 0
-  optimizer: sgd
-  gradient_accumulation: 1
