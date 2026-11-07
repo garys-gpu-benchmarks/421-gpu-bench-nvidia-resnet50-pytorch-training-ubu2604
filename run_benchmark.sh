@@ -16,12 +16,11 @@ capture_benchmark_run_command_submitted "$@"
 
 usage() {
   cat <<'USAGE'
+
 Usage: bash run_benchmark.sh [OPTIONS]
 
 Workload Name:          ResNet-50 FP16 Training Step (PyTorch).
 Main Goal:              Measure mixed-precision ResNet-50 training-step efficiency.
-Validation Objective:   Validates two timed training passes plus a summary average on synthetic FP16
-                        ResNet-50 steps.
 Command Tools Executed: Run scripts/train_resnet50.py via collect_resnet50_train.py.
 
 Profiles (default: --smoke):
