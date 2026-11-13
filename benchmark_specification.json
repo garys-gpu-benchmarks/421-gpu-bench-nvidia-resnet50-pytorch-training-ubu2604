@@ -40,6 +40,11 @@
     "value": "Run scripts/train_resnet50.py via collect_resnet50_train.py"
   },
   {
+    "field_name": "Execution Description With Parameters",
+    "source_file": "BenchmarkSpecDefinitions.xlsx::Workload_Definitions",
+    "value": "Runs scripts/train_resnet50.py (synthetic images, FP16 AMP) twice via collect_resnet50_train.py. precision: fp16. image_size, batch_size, warmup_iters, and num_iterations come from yaml. learning_rate comes from yaml. The trainer uses SGD with no gradient accumulation and a local synthetic loader, not ImageNet"
+  },
+  {
     "field_name": "Metrics",
     "source_file": "BenchmarkSpecDefinitions.xlsx::Workload_Definitions",
     "value": "#1: Training batch step time (step_time_msec); #2: Training throughput (images_per_sec); #3: Modeled FP16 training throughput, 3x forward FLOPs, TFLOP/s (fp16_tflops); #4: Peak GPU memory (peak_gpu_memory_gb); #5: Modeled weight and feature-map traffic, GB/s (modeled_weight_feature_traffic_gb_s)"
@@ -173,11 +178,6 @@
     "field_name": "Command Methodology",
     "source_file": "BenchmarkSpecDefinitions.xlsx::Workload_Definitions",
     "value": "Run scripts/train_resnet50.py twice, training torchvision ResNet-50 in FP16 on synthetic images for yaml image_size, batch_size, and num_iterations. Parse RESULT step time, images per second, FP16 TFLOPS, and peak memory, and write pass1, pass2, and summary rows"
-  },
-  {
-    "field_name": "Execution Description With Parameters",
-    "source_file": "BenchmarkSpecDefinitions.xlsx::Workload_Definitions",
-    "value": "Runs scripts/train_resnet50.py (synthetic images, FP16 AMP) twice via collect_resnet50_train.py. precision: fp16. image_size, batch_size, warmup_iters, and num_iterations come from yaml. learning_rate comes from yaml. The trainer uses SGD with no gradient accumulation and a local synthetic loader, not ImageNet"
   },
   {
     "field_name": "Execution Domain",
