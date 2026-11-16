@@ -15,7 +15,7 @@ This PRD.md section is populated from benchmark_specification.json, which is the
 ResNet-50 FP16 Training Step (PyTorch)
 
 ## Execution Summary (Run and Measure)
-Run the PyTorch ResNet-50 FP16 trainer (scripts/train_resnet50.py, torchvision.models.resnet50) twice on synthetic images with yaml image_size/batch_size/num_iterations, parse RESULT step_time_msec, images_per_sec, fp16_tflops, and peak memory, and write pass1/pass2/summary rows, to measure mixed-precision training efficiency
+Run the PyTorch ResNet-50 FP16 trainer (scripts/train_resnet50.py, torchvision.models.resnet50) once on synthetic images with yaml image_size/batch_size/num_iterations, parse RESULT step_time_msec, images_per_sec, counted_tflops, and peak memory, and write pass1/summary rows, to measure mixed-precision training efficiency
 
 ## Main Goal
 Measure mixed-precision ResNet-50 training-step efficiency

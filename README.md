@@ -12,7 +12,7 @@ On an Ubuntu 26.04 host, as root or with sudo:
 ```bash
 git clone https://github.com/garys-gpu-benchmarks/421-gpu-bench-nvidia-resnet50-pytorch-training-ubu2604.git
 cd 421-gpu-bench-nvidia-resnet50-pytorch-training-ubu2604
-sudo bash setup.sh --assume-yes
+sudo bash run_setup.sh --assume-yes
 bash run_benchmark.sh --smoke
 ```
 
@@ -44,8 +44,8 @@ Profile values live in `config/benchmark_config.yaml`.
 |---|---|---|
 | 1 | Training batch step time | `step_time_msec` |
 | 2 | Training throughput | `images_per_sec` |
-| 3 | Modeled FP16 training throughput, 3x forward FLOPs, TFLOP/s | `fp16_tflops` |
-| 4 | Peak GPU memory | `peak_gpu_memory_gb` |
+| 3 | Training throughput from counted FLOPs, TFLOP/s | `counted_tflops` |
+| 4 | Peak PyTorch-allocated GPU memory | `peak_gpu_memory_gb` |
 | 5 | Modeled weight and feature-map traffic, GB/s | `modeled_weight_feature_traffic_gb_s` |
 
 ### Notes
@@ -68,9 +68,9 @@ Every run is checked for completeness and against any `thresholds:` or `baseline
 
 ## Requirements
 
-- Ubuntu 26.04, root or sudo for `setup.sh`
+- Ubuntu 26.04, root or sudo for `run_setup.sh`
 - NVIDIA GPU with CUDA 13.3 (validated on H100)
-- CUDA Runtime, PyTorch-CUDA, torchvision, ResNet-50, Python 3.14. `setup.sh` installs what is missing; Python packages go into a repo-local `.venv`.
+- CUDA Runtime, PyTorch-CUDA, torchvision, ResNet-50, Python 3.14. `run_setup.sh` installs what is missing; Python packages go into a repo-local `.venv`.
 
 ## Run the Whole Bundle
 
@@ -90,14 +90,15 @@ Other platforms: [AMD 24.04](https://github.com/garys-gpu-benchmarks/bundle-amd-
 
 ## Troubleshooting
 
-- **SSH dropped during setup:** reconnect and run `sudo bash setup.sh --assume-yes` again. It resumes; do not delete `.venv` or `.cache`.
+- **SSH dropped during setup:** reconnect and run `sudo bash run_setup.sh --assume-yes` again. It resumes; do not delete `.venv` or `.cache`.
 - **A metric reads `na`:** the run could not measure it on this host. The reason is in the run's `metrics_summary.txt` and `errors_info.txt`; see also [Notes](#notes).
 
 ## Repository Layout
 
 ```text
 .
-├── setup.sh                      # installs dependencies and builds the benchmark
+├── run_setup.sh                  # installs dependencies and builds the benchmark
+├── setup.sh                      # runs run_setup.sh (its earlier name)
 ├── run_benchmark.sh              # runs one profile, parses, validates
 ├── show_metrics.sh               # prints this workload's ledger rows
 ├── list_runs.sh                  # prints every run in the ledger

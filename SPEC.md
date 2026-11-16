@@ -2,7 +2,7 @@
 
 ## Execution Description
 
-Runs scripts/train_resnet50.py (synthetic images, FP16 AMP) twice via collect_resnet50_train.py. precision: fp16. image_size, batch_size, warmup_iters, and num_iterations come from yaml. learning_rate comes from yaml. Sweep dimensions: precision, image_size, batch_size, learning_rate, warmup_iters, num_iterations.
+Runs scripts/train_resnet50.py (synthetic images, FP16 AMP) once via collect_resnet50_train.py. precision: fp16. image_size, batch_size, warmup_iters, and num_iterations come from yaml. learning_rate comes from yaml. Sweep dimensions: precision, image_size, batch_size, learning_rate, warmup_iters, num_iterations.
 
 ## Parameters
 
@@ -25,24 +25,24 @@ Run scripts/train_resnet50.py via collect_resnet50_train.py
 
 raw_results.csv with pass1, pass2, and summary from two runs of train_resnet50.py
 
-check,image_size,batch_size,precision,status,step_time_msec,images_per_sec,fp16_tflops,modeled_weight_feature_traffic_gb_s,peak_gpu_memory_gb
+check,image_size,batch_size,precision,status,step_time_msec,images_per_sec,counted_tflops,modeled_weight_feature_traffic_gb_s,peak_gpu_memory_gb
 pass1,224,32,fp16,ok,80,400,12,50,6
 
 ## Metrics
 
 - **#1: Training batch step time** — stored as `step_time_msec`.
 - **#2: Training throughput** — stored as `images_per_sec`.
-- **#3: Modeled FP16 training throughput, 3x forward FLOPs, TFLOP/s** — stored as `fp16_tflops`.
-- **#4: Peak GPU memory** — stored as `peak_gpu_memory_gb`.
+- **#3: Training throughput from counted FLOPs, TFLOP/s** — stored as `counted_tflops`.
+- **#4: Peak PyTorch-allocated GPU memory** — stored as `peak_gpu_memory_gb`.
 - **#5: Modeled weight and feature-map traffic, GB/s** — stored as `modeled_weight_feature_traffic_gb_s`.
 
 ## Framework
 
-Runs scripts/train_resnet50.py (synthetic images, FP16 AMP) twice via collect_resnet50_train.py. precision: fp16. image_size, batch_size, warmup_iters, and num_iterations come from yaml.
+Runs scripts/train_resnet50.py (synthetic images, FP16 AMP) once via collect_resnet50_train.py. precision: fp16. image_size, batch_size, warmup_iters, and num_iterations come from yaml.
 
 ## Installation and Execution Summary
 
-Run the PyTorch ResNet-50 FP16 trainer (scripts/train_resnet50.py, torchvision.models.resnet50) twice on synthetic images with yaml image_size/batch_size/num_iterations, parse RESULT step_time_msec, images_per_sec, fp16_tflops, and peak memory, and write pass1/pass2/summary rows, to measure mixed-precision training efficiency
+Run the PyTorch ResNet-50 FP16 trainer (scripts/train_resnet50.py, torchvision.models.resnet50) once on synthetic images with yaml image_size/batch_size/num_iterations, parse RESULT step_time_msec, images_per_sec, counted_tflops, and peak memory, and write pass1/summary rows, to measure mixed-precision training efficiency
 
 ## Platform Portability
 
@@ -81,7 +81,7 @@ BENCHMARK_DB=tests/fixtures/benchmark.db \
 
 raw_results.csv with pass1, pass2, and summary from two runs of train_resnet50.py
 
-check,image_size,batch_size,precision,status,step_time_msec,images_per_sec,fp16_tflops,modeled_weight_feature_traffic_gb_s,peak_gpu_memory_gb
+check,image_size,batch_size,precision,status,step_time_msec,images_per_sec,counted_tflops,modeled_weight_feature_traffic_gb_s,peak_gpu_memory_gb
 pass1,224,32,fp16,ok,80,400,12,50,6
 
 ```bash
@@ -98,10 +98,10 @@ bash run_benchmark.sh --extended
 2. `run.error_message` is NULL.
 3. `started_at` and `finished_at` are valid ISO-8601 UTC strings.
 4. All required aggregate metrics in `runs` are non-NULL and finite.
-5. All required aggregate metrics are physically sensible (positive values). Runs scripts/train_resnet50.py (synthetic images, FP16 AMP) twice via collect_resnet50_train.py. precision: fp16. image_size, batch_size, warmup_iters, and num_iterations come from yaml.
+5. All required aggregate metrics are physically sensible (positive values). Runs scripts/train_resnet50.py (synthetic images, FP16 AMP) once via collect_resnet50_train.py. precision: fp16. image_size, batch_size, warmup_iters, and num_iterations come from yaml.
 6. At least 2 sample rows exist for the latest `run_id` (sweep coverage).
 7. No sample has `status = 'error'`.
-8. Runs scripts/train_resnet50.py (synthetic images, FP16 AMP) twice via collect_resnet50_train.py. precision: fp16. image_size, batch_size, warmup_iters, and num_iterations come from yaml.
+8. Runs scripts/train_resnet50.py (synthetic images, FP16 AMP) once via collect_resnet50_train.py. precision: fp16. image_size, batch_size, warmup_iters, and num_iterations come from yaml.
 
 ### Baseline / Threshold configuration (`config/benchmark_config.yaml`)
 
