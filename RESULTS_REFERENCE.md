@@ -11,16 +11,16 @@ Reference results from the validation run on the system shown in each section (r
 ## smoke
 
 - **System:** 1× NVIDIA H100 80GB HBM3 (81559 MiB) · Intel(R) Xeon(R) Platinum 8468 · Ubuntu 26.04.1 LTS · kernel 6.8.0-149-generic · driver 595.112.07
-- **Run:** 2026-11-22T11:27:40Z · status **PASS** (exit 0)
-- **Time (mm:ss):** setup 01:59 · benchmark 00:01 · whole run 02:12
-- **Source:** run 421_20261122_112740
+- **Run:** 2026-11-22T15:04:45Z · status **PASS** (exit 0)
+- **Time (mm:ss):** setup 02:22 · benchmark 00:01 · whole run 02:36
+- **Source:** run 421_20261122_150445
 - **Command:** `bash run_benchmark.sh --smoke --precision fp16 --image-size 64 --batch-size 2 --learning-rate 0.1 --warmup-iters 1 --num-iterations 3`
 
 | # | Metric | Result |
 |---|---|---|
-| 1 | Training batch step time (step_time_msec) | 17.897472 |
-| 2 | Training throughput (images_per_sec) | 111.747623 |
-| 3 | Training throughput from counted FLOPs, TFLOP/s (counted_tflops) | 0.222923 |
+| 1 | Training batch step time (step_time_msec) | 14.531104 |
+| 2 | Training throughput (images_per_sec) | 137.635794 |
+| 3 | Training throughput from counted FLOPs, TFLOP/s (counted_tflops) | 0.274567 |
 | 4 | Peak PyTorch-allocated GPU memory (peak_gpu_memory_gb) | 0.281045 |
-| 5 | Modeled weight and feature-map traffic, GB/s (modeled_weight_feature_traffic_gb_s) | 20.035504 |
+| 5 | Modeled weight and feature-map traffic, GB/s (modeled_weight_feature_traffic_gb_s) | 24.677057 |
 <!-- /profile:smoke -->
